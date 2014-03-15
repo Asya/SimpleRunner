@@ -1,0 +1,7 @@
+bin/*
+gen/*
+.idea/*
+Runner.iml
+local.properties
+out/*
+app/*
