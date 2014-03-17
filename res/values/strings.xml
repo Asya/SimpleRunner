@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">Simple Runner</string>
     <string name="splash_text">your running assistant</string>
+    <string name="new_run">New Run</string>
+    <string name="current_run">Current Run</string>
+    <string name="statistics">Statistics</string>
+
 </resources>
