@@ -9,7 +9,7 @@ import com.sua.runner.R;
 
 public class SplashActivity extends Activity {
 
-    private final int SPLASH_DISPLAY_TIME = 3000;
+    private final int SPLASH_DISPLAY_TIME = 1000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

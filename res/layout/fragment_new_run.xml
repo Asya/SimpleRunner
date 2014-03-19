@@ -7,8 +7,28 @@
     <TextView android:layout_height="wrap_content"
               android:layout_width="wrap_content"
               android:id="@+id/text"
-            android:textColor="@color/dark_blue"
-            android:textSize="18dp"
-            android:text="@string/new_run"/>
+              android:textColor="@color/dark_blue"
+              android:textSize="25dp"
+              android:text="@string/new_run"
+              android:layout_gravity="center_horizontal"
+              android:layout_margin="10dp"/>
+
+    <include android:id="@+id/walk_before"
+              layout="@layout/walk_block"
+              android:layout_margin="10dp"/>
+
+    <LinearLayout android:id="@+id/layout_run"
+                  android:layout_height="wrap_content"
+                  android:layout_width="wrap_content"
+                  android:background="@color/light_blue">
+        <include android:id="@+id/run"
+                 layout="@layout/run_block"
+                 android:layout_margin="10dp"/>
+
+                  </LinearLayout>
+
+    <include android:id="@+id/walk_after"
+              layout="@layout/walk_block"
+              android:layout_margin="10dp"/>
 
 </LinearLayout>

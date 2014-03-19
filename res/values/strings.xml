@@ -5,5 +5,10 @@
     <string name="new_run">New Run</string>
     <string name="current_run">Current Run</string>
     <string name="statistics">Statistics</string>
+    <string name="walk_before">Walk\nBefore</string>
+    <string name="walk">Walk</string>
+    <string name="run">Run</string>
+    <string name="dimention_min">min</string>
+    <string name="repeat">Repeat</string>
 
 </resources>
