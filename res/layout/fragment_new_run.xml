@@ -1,34 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
 
-    <TextView android:layout_height="wrap_content"
-              android:layout_width="wrap_content"
-              android:id="@+id/text"
-              android:textColor="@color/dark_blue"
-              android:textSize="25dp"
-              android:text="@string/new_run"
-              android:layout_gravity="center_horizontal"
-              android:layout_margin="10dp"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <TableLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="*">
 
-    <include android:id="@+id/walk_before"
-              layout="@layout/walk_block"
-              android:layout_margin="10dp"/>
+        <TableRow android:layout_height="wrap_content"
+                  android:layout_width="match_parent">
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="match_parent"
+                      android:id="@+id/text"
+                      android:textColor="@color/dark_blue"
+                      android:textSize="30dp"
+                      android:textStyle="bold"
+                      android:text="@string/new_run"
+                      android:gravity="center_horizontal"
+                      android:layout_margin="10dp"
+                      android:layout_span="5"
+                    />
+        </TableRow>
 
-    <LinearLayout android:id="@+id/layout_run"
-                  android:layout_height="wrap_content"
-                  android:layout_width="wrap_content"
-                  android:background="@color/light_blue">
-        <include android:id="@+id/run"
-                 layout="@layout/run_block"
-                 android:layout_margin="10dp"/>
 
-                  </LinearLayout>
+        <include android:id="@+id/walk_before"
+                 layout="@layout/walk_block"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginRight="20dp"/>
 
-    <include android:id="@+id/walk_after"
-              layout="@layout/walk_block"
-              android:layout_margin="10dp"/>
+        <LinearLayout
+                android:id="@+id/layout_runs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
-</LinearLayout>
+        <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+            <Button android:id="@+id/btn_add_run"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_run"
+                    style="@style/NewRunTextBlue"/>
+        </TableRow>
+
+        <include android:id="@+id/walk_after"
+                 layout="@layout/walk_block"
+                 android:layout_marginLeft="20dp"
+                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"/>
+
+    </TableLayout>
+
+</ScrollView>

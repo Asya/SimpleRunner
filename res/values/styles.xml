@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="CustomTheme" parent="android:Theme.Black.NoTitleBar.Fullscreen">
+    <style name="CustomTheme" parent="android:Theme.Holo.NoActionBar">
         <item name="android:windowBackground">@color/activity_background</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:typeface">sans</item>
+
+    </style>
+
+    <style name="NewRunTextBlue" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <color name="activity_background">#ede9e1</color>
     <color name="dark_blue">#274c85</color>
-    <color name="light_blue">#8ac8eb</color>
+    <color name="dark_blue_transparent">#55274c85</color>
+    <color name="light_blue_transparent">#558ac8eb</color>
 
 </resources>

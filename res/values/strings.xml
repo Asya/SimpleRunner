@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Simple Runner</string>
+
+    <!-- Splach Screen -->
     <string name="splash_text">your running assistant</string>
+
+    <!-- Tabs -->
     <string name="new_run">New Run</string>
     <string name="current_run">Current Run</string>
     <string name="statistics">Statistics</string>
-    <string name="walk_before">Walk\nBefore</string>
-    <string name="walk">Walk</string>
-    <string name="run">Run</string>
-    <string name="dimention_min">min</string>
-    <string name="repeat">Repeat</string>
+
+    <!-- New Run -->
+    <string name="walk_before">WALK BEFORE</string>
+    <string name="walk_after">WALK AFTER</string>
+    <string name="walk">WALK</string>
+    <string name="run">RUN</string>
+    <string name="repeat">REPEAT</string>
+    <string name="add_run">Add Run</string>
+    <string name="delete_block">Delete block</string>
+
+    <!-- Dialog Time Picker -->
+    <string name="set">Set</string>
+    <string name="time_picker_dialog_title">Choose time interval</string>
+
+    <!-- Dialog Repeat Picker -->
+    <string name="repeat_picker_dialog_title">Choose repeat number</string>
+
+    <string name="min">min</string>
+    <string name="sec">sec</string>
+    <string name="times">times</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

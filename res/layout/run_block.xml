@@ -2,78 +2,61 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/light_blue_transparent"
+              android:padding="10dp"
+              android:layout_margin="10dp" >
+
+    <TableRow android:id="@+id/row_run"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:background="@color/light_blue">
+              android:paddingTop="5dp"
+              android:paddingBottom="10dp">
+        <TextView android:id="@+id/text_run"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/run"
+                  style="@style/NewRunTextBlue"/>
+        <TextView android:id="@+id/value_run"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:singleLine="true"
+                  android:text="1min"/>
+    </TableRow>
 
-    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            >
-
-    <TextView android:id="@+id/text_run"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerVertical="true"
-              android:text="@string/run"
-              android:textColor="@color/dark_blue"/>
-    <EditText android:id="@+id/edit_run"
-              android:layout_width="71dp"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@id/text_run"
-              android:layout_centerVertical="true"
-              android:singleLine="true"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:gravity="center"
-              android:inputType="numberDecimal"/>
-    <TextView android:id="@+id/text_walk"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerVertical="true"
-              android:layout_toRightOf="@id/edit_run"
-              android:text="@string/walk"
-              android:textColor="@color/dark_blue"/>
-    <EditText android:id="@+id/edit_walk"
-              android:layout_width="@dimen/run_edit_width"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@id/text_walk"
-              android:layout_centerVertical="true"
-              android:singleLine="true"
-              android:layout_marginLeft="10dp"
-              android:layout_marginRight="10dp"
-              android:gravity="center"
-              android:inputType="numberDecimal"/>
-    <TextView android:id="@+id/text_dimentions"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@id/edit_walk"
-              android:layout_centerVertical="true"
-              android:text="@string/dimention_min"
-              android:textColor="@color/dark_blue"/>
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/text_run"
-            >
-    <TextView android:id="@+id/text_repeat"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerVertical="true"
-              android:text="@string/repeat"
-              android:textColor="@color/dark_blue"/>
-    <EditText android:id="@+id/edit_repeat"
+    <TableRow android:id="@+id/row_walk"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:layout_toRightOf="@id/text_repeat"
-              android:layout_centerVertical="true"
-              android:singleLine="true"
-              android:layout_marginLeft="10dp"
-              android:gravity="center"
-              android:inputType="numberDecimal"/>
-    </RelativeLayout>
+              android:paddingBottom="10dp">
+        <TextView android:id="@+id/text_walk"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/walk"
+                  style="@style/NewRunTextBlue"/>
+        <TextView android:id="@+id/value_walk"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:singleLine="true"
+                  android:text="2min"/>
+    </TableRow>
+
+    <TableRow android:id="@+id/row_repeat"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:paddingBottom="10dp">
+        <TextView android:id="@+id/text_repeat"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="@string/repeat"
+                  style="@style/NewRunTextBlue"/>
+        <TextView android:id="@+id/value_repeat"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:singleLine="true"
+                  android:text="10times"/>
+    </TableRow>
 </LinearLayout>

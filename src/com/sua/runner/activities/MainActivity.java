@@ -2,6 +2,7 @@ package com.sua.runner.activities;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TextView;
 import com.sua.runner.fragments.NewRunFragment;
 import com.sua.runner.R;
 import com.sua.runner.fragments.SampleFragment;
@@ -52,6 +54,14 @@ public class MainActivity extends FragmentActivity {
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
+
+        //TODO: is it the best way to set tab text color??
+        for(int i=0;i<mTabHost.getTabWidget().getChildCount();i++)
+        {
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColor(R.color.dark_blue));
+        }
+
     }
 
     @Override
