@@ -29,8 +29,6 @@ public class Utils {
         return timeInString(timeInSeconds(minutes, seconds), context);
     }
 
-
-
     public static String repeatInString(int repeat, Context context) {
         StringBuilder builder = new StringBuilder();
         builder.append(repeat).append(" ").append(context.getString(R.string.times));
