@@ -1,8 +1,8 @@
 package com.sua.runner.fragments;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.*;
 import android.widget.Button;
 import android.widget.LinearLayout;

@@ -1,11 +1,11 @@
 package com.sua.runner.activities;
 
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import com.sua.runner.fragments.NewRunFragment;
 import com.sua.runner.R;
 import com.sua.runner.fragments.SampleFragment;
 
+
 import java.util.ArrayList;
 
 /**
@@ -23,12 +24,12 @@ import java.util.ArrayList;
  * that switches between tabs and also allows the user to perform horizontal
  * flicks to move between the tabs.
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
     public static final String NEW_RUN = "new_run";
     public static final String CURRENT_RUN = "current_run";
     public static final String STATISTICS = "statistics";
     TabHost mTabHost;
-    ViewPager  mViewPager;
+    ViewPager mViewPager;
     TabsAdapter mTabsAdapter;
 
     @Override
@@ -115,8 +116,8 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        public TabsAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager) {
-            super(activity.getSupportFragmentManager());
+        public TabsAdapter(Activity activity, TabHost tabHost, ViewPager pager) {
+            super(activity.getFragmentManager());
             mContext = activity;
             mTabHost = tabHost;
             mViewPager = pager;
