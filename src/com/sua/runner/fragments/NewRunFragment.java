@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sua.runner.R;
@@ -35,6 +36,7 @@ public class NewRunFragment extends Fragment {
         runViews = new ArrayList<View>();
         layoutRuns = (LinearLayout) view.findViewById(R.id.layout_runs);
         Button btnAddRun = (Button) view.findViewById(R.id.btn_add_run);
+        Button btnStartRun = (Button) view.findViewById(R.id.btn_start_run);
 
         //add first default run
         addRunBlock();
@@ -45,6 +47,12 @@ public class NewRunFragment extends Fragment {
             @Override
             public void onClick(View view) {
                addRunBlock();
+            }
+        });
+        btnStartRun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: start run!!
             }
         });
     }
@@ -73,13 +81,20 @@ public class NewRunFragment extends Fragment {
     }
 
     private void addRunBlock() {
-        View runView = getActivity().getLayoutInflater().inflate(R.layout.run_block, layoutRuns, false);
+        final View runView = getActivity().getLayoutInflater().inflate(R.layout.run_block, layoutRuns, false);
         presetRunValues(runView);
 
+        ImageButton btnDelete = (ImageButton)runView.findViewById(R.id.btn_delete);
         final View rowRun = runView.findViewById(R.id.row_run);
         final View rowWalk = runView.findViewById(R.id.row_walk);
         final View rowRepeat = runView.findViewById(R.id.row_repeat);
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutRuns.removeView(runView);
+            }
+        });
         rowRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

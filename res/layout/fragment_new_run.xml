@@ -52,6 +52,15 @@
                  layout="@layout/walk_block"
                  android:layout_marginLeft="20dp"
                  android:layout_marginRight="20dp"
+                 android:layout_marginBottom="10dp"/>
+
+        <Button android:id="@+id/btn_start_run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_run"
+                style="@style/NewRunTextBlue"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginBottom="20dp"/>
 
     </TableLayout>

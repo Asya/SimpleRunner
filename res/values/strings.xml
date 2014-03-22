@@ -17,6 +17,7 @@
     <string name="run">RUN</string>
     <string name="repeat">REPEAT</string>
     <string name="add_run">Add Run</string>
+    <string name="start_run">Start Run</string>
     <string name="delete_block">Delete block</string>
 
     <!-- Dialog Time Picker -->
