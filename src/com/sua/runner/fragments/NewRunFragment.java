@@ -24,6 +24,8 @@ public class NewRunFragment extends Fragment {
     private LinearLayout layoutRuns;
     private ArrayList<View> runViews;
 
+    private DialogFragment dialogFragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_new_run, container, false);
@@ -67,15 +69,19 @@ public class NewRunFragment extends Fragment {
         beforeWalkView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new TimePickerFragment((TextView)beforeWalkView.findViewById(R.id.value));
-                newFragment.show(getFragmentManager(), TIME_PICKER);
+                if(dialogFragment == null || !dialogFragment.isAdded()) {
+                    dialogFragment = new TimePickerFragment((TextView)beforeWalkView.findViewById(R.id.value));
+                    dialogFragment.show(getFragmentManager(), TIME_PICKER);
+                }
             }
         });
         afterWalkView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new TimePickerFragment((TextView)afterWalkView.findViewById(R.id.value));
-                newFragment.show(getFragmentManager(), TIME_PICKER);
+                if(dialogFragment == null || !dialogFragment.isAdded()) {
+                    dialogFragment = new TimePickerFragment((TextView)afterWalkView.findViewById(R.id.value));
+                    dialogFragment.show(getFragmentManager(), TIME_PICKER);
+                }
             }
         });
     }
@@ -98,22 +104,28 @@ public class NewRunFragment extends Fragment {
         rowRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new TimePickerFragment((TextView)rowRun.findViewById(R.id.value_run));
-                newFragment.show(getFragmentManager(), TIME_PICKER);
+                if(dialogFragment == null || !dialogFragment.isAdded()) {
+                    dialogFragment = new TimePickerFragment((TextView)rowRun.findViewById(R.id.value_run));
+                    dialogFragment.show(getFragmentManager(), TIME_PICKER);
+                }
             }
         });
         rowWalk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new TimePickerFragment((TextView)rowWalk.findViewById(R.id.value_walk));
-                newFragment.show(getFragmentManager(), TIME_PICKER);
+                if(dialogFragment == null || !dialogFragment.isAdded()) {
+                    dialogFragment = new TimePickerFragment((TextView)rowWalk.findViewById(R.id.value_walk));
+                    dialogFragment.show(getFragmentManager(), TIME_PICKER);
+                }
             }
         });
         rowRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new RepeatPickerFragment((TextView)rowRepeat.findViewById(R.id.value_repeat));
-                newFragment.show(getFragmentManager(), TIME_PICKER);
+                if(dialogFragment == null || !dialogFragment.isAdded()) {
+                    dialogFragment = new RepeatPickerFragment((TextView)rowRepeat.findViewById(R.id.value_repeat));
+                    dialogFragment.show(getFragmentManager(), TIME_PICKER);
+                }
             }
         });
 

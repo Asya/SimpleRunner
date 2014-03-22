@@ -53,6 +53,7 @@ public class TimePickerFragment extends DialogFragment {
                         String time = Utils.timeInString(timeInSeconds, getActivity());
                         textView.setText(time);
                         textView.setTag(timeInSeconds);
+
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
