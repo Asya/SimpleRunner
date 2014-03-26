@@ -2,7 +2,6 @@ package com.sua.runner.fragments;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
@@ -10,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sua.runner.R;
-import com.sua.runner.RunService;
 import com.sua.runner.Utils;
 import com.sua.runner.activities.MainActivity;
 import com.sua.runner.model.CurrentRun;
@@ -111,6 +109,7 @@ public class NewRunFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 layoutRuns.removeView(runView);
+                runViews.remove(runView);
             }
         });
         rowRun.setOnClickListener(new View.OnClickListener() {

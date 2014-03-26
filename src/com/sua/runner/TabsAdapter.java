@@ -118,7 +118,6 @@ public class TabsAdapter extends FragmentPagerAdapter implements ActionBar.TabLi
     @Override
     public void onTabUnselected(ActionBar.Tab tab, android.app.FragmentTransaction ft) {
         // TODO Auto-generated method stub
-
     }
 
 }
