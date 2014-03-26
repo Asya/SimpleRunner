@@ -2,6 +2,7 @@ package com.sua.runner.fragments;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
@@ -9,8 +10,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sua.runner.R;
+import com.sua.runner.RunService;
 import com.sua.runner.Utils;
 import com.sua.runner.activities.MainActivity;
+import com.sua.runner.model.CurrentRun;
+import com.sua.runner.model.RunBlock;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,8 @@ public class NewRunFragment extends Fragment {
     public static final int PRESET_WALK = 5 * 60;
 
     private LinearLayout layoutRuns;
+    private View beforeWalkView;
+    private View afterWalkView;
     private ArrayList<View> runViews;
 
     private DialogFragment dialogFragment;
@@ -55,17 +61,19 @@ public class NewRunFragment extends Fragment {
         btnStartRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CurrentRun currentRun = collectInfo();
+
                 MainActivity mainActivity = (MainActivity)getActivity();
                 if(mainActivity != null) {
-                    mainActivity.startRun();
+                    mainActivity.startRun(currentRun);
                 }
             }
         });
     }
 
     private void initWalks(View view) {
-        final View beforeWalkView = view.findViewById(R.id.walk_before);
-        final View afterWalkView = view.findViewById(R.id.walk_after);
+        beforeWalkView = view.findViewById(R.id.walk_before);
+        afterWalkView = view.findViewById(R.id.walk_after);
 
         ((TextView)afterWalkView.findViewById(R.id.text_type)).setText(getString(R.string.walk_after));
         presetWalkValues(beforeWalkView, afterWalkView);
@@ -156,5 +164,24 @@ public class NewRunFragment extends Fragment {
         TextView textAfterWalk = (TextView)afterWalkView.findViewById(R.id.value);
         (textAfterWalk).setText(Utils.timeInString(PRESET_WALK, getActivity()));
         textAfterWalk.setTag(PRESET_WALK);
+    }
+
+    private CurrentRun collectInfo() {
+        int beforeWalkTime = (Integer)beforeWalkView.findViewById(R.id.value).getTag();
+        int afterWalkTime = (Integer)afterWalkView.findViewById(R.id.value).getTag();
+
+        ArrayList<RunBlock> runBlocks = new ArrayList();
+        for(int i = 0; i < runViews.size(); i++) {
+            runBlocks.add(collectRunBlockInfo(runViews.get(i)));
+        }
+
+        return new CurrentRun(beforeWalkTime, afterWalkTime, runBlocks);
+    }
+
+    private RunBlock collectRunBlockInfo(View view) {
+        int runTime = (Integer)view.findViewById(R.id.value_run).getTag();
+        int walkTime = (Integer)view.findViewById(R.id.value_walk).getTag();
+        int repeat = (Integer)view.findViewById(R.id.value_repeat).getTag();
+        return new RunBlock(runTime, walkTime, repeat);
     }
 }

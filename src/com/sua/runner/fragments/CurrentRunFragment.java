@@ -1,5 +1,6 @@
 package com.sua.runner.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,10 +9,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sua.runner.R;
+import com.sua.runner.Utils;
+import com.sua.runner.model.CurrentRun;
+import com.sua.runner.model.RunBlock;
+
+import java.util.ArrayList;
 
 public class CurrentRunFragment extends Fragment {
 
-    private static int HEIGHT_MULTIPLIER = 40;
+    private static double HEIGHT_MULTIPLIER = 0.7;
     private static int MIN_HEIGHT = 60;
     private static int MAX_HEIGHT = 60*5;
 
@@ -27,10 +33,16 @@ public class CurrentRunFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         runsLayout = (LinearLayout)view.findViewById(R.id.layout_runs);
-        for(int i = 0; i < 20; i++) {
-            addRunItem(i+1);
-            addWalkItem(i+1);
-        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     private void addWalkItem(int duration) {
@@ -39,7 +51,7 @@ public class CurrentRunFragment extends Fragment {
         nameText.setBackgroundColor(getResources().getColor(R.color.dark_blue_transparent));
         nameText.setText("Walk #" + duration);
         TextView timeText = (TextView)walkView.findViewById(R.id.time);
-        timeText.setText(duration + " min");
+        timeText.setText(Utils.timeInString(duration, getActivity()));
         ViewGroup.LayoutParams layoutParams = walkView.getLayoutParams();
         layoutParams.height = getHeight(duration);
         walkView.setLayoutParams(layoutParams);
@@ -52,7 +64,7 @@ public class CurrentRunFragment extends Fragment {
         nameText.setBackgroundColor(getResources().getColor(R.color.orange_transparent));
         nameText.setText("Run #" + duration);
         TextView timeText = (TextView)runView.findViewById(R.id.time);
-        timeText.setText(duration + " min");
+        timeText.setText(Utils.timeInString(duration, getActivity()));
         ViewGroup.LayoutParams layoutParams = runView.getLayoutParams();
         layoutParams.height = getHeight(duration);
         runView.setLayoutParams(layoutParams);
@@ -69,5 +81,24 @@ public class CurrentRunFragment extends Fragment {
             return (int)(MAX_HEIGHT * dp);
         }
         return height;
+    }
+
+    public void initCurrentRun(CurrentRun currentRun) {
+        runsLayout.removeAllViews();
+
+        if(currentRun != null) {
+            addWalkItem(currentRun.getWalkBeforeTime());
+
+            ArrayList<RunBlock> runBlocks = currentRun.getRunBlocks();
+            for(int i = 0; i < runBlocks.size(); i++) {
+                for(int j = 0; j < runBlocks.get(i).getRepeat(); j++) {
+                    addRunItem(runBlocks.get(i).getRunTime());
+                    addWalkItem(runBlocks.get(i).getWalkTime());
+                }
+            }
+
+            addWalkItem(currentRun.getWalkAfterTime());
+            runsLayout.invalidate();
+        }
     }
 }

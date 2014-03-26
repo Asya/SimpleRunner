@@ -18,5 +18,6 @@
         <activity android:name=".activities.MainActivity"
                   android:screenOrientation="portrait"/>
 
+        <service android:name=".RunService"/>
     </application>
 </manifest>
