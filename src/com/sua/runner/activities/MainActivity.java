@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import com.sua.runner.fragments.CurrentRunFragment;
 import com.sua.runner.fragments.NewRunFragment;
 import com.sua.runner.R;
 import com.sua.runner.fragments.SampleFragment;
@@ -47,7 +48,7 @@ public class MainActivity extends Activity {
         mTabsAdapter.addTab(mTabHost.newTabSpec(NEW_RUN).setIndicator(getString(R.string.new_run)),
                 NewRunFragment.class, null);
         mTabsAdapter.addTab(mTabHost.newTabSpec(CURRENT_RUN).setIndicator(getString(R.string.current_run)),
-                SampleFragment.class, null);
+                CurrentRunFragment.class, null);
         mTabsAdapter.addTab(mTabHost.newTabSpec(STATISTICS).setIndicator(getString(R.string.statistics)),
                 SampleFragment.class, null);
 
@@ -68,6 +69,11 @@ public class MainActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("tab", mTabHost.getCurrentTabTag());
+    }
+
+    public void startRun(){
+        mTabHost.setCurrentTabByTag(CURRENT_RUN);
+        //TODO: start service
     }
 
     /**

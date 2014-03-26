@@ -18,5 +18,7 @@
     <color name="dark_blue">#274c85</color>
     <color name="dark_blue_transparent">#55274c85</color>
     <color name="light_blue_transparent">#558ac8eb</color>
+    <color name="gray_transparent">#AA000000</color>
+    <color name="orange_transparent">#55ffa500</color>
 
 </resources>

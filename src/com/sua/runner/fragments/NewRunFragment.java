@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sua.runner.R;
 import com.sua.runner.Utils;
+import com.sua.runner.activities.MainActivity;
 
 import java.util.ArrayList;
 
@@ -54,7 +55,10 @@ public class NewRunFragment extends Fragment {
         btnStartRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: start run!!
+                MainActivity mainActivity = (MainActivity)getActivity();
+                if(mainActivity != null) {
+                    mainActivity.startRun();
+                }
             }
         });
     }
