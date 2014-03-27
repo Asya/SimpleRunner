@@ -19,10 +19,10 @@ import java.util.ArrayList;
 public class NewRunFragment extends Fragment {
 
     public static final String TIME_PICKER = "time_picker";
-    public static final int PRESET_RUN = 60;
-    public static final int PRESET_WALK_IN_RUN = 2 * 60;
-    public static final int PRESET_REPEAT = 10;
-    public static final int PRESET_WALK = 5 * 60;
+    public static final int PRESET_RUN = 10;//60;
+    public static final int PRESET_WALK_IN_RUN = 3;//2 * 60;
+    public static final int PRESET_REPEAT = 3;//10;
+    public static final int PRESET_WALK = 5;//5 * 60;
 
     private LinearLayout layoutRuns;
     private View beforeWalkView;

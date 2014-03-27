@@ -17,9 +17,9 @@ import java.util.ArrayList;
 
 public class CurrentRunFragment extends Fragment {
 
-    private static double HEIGHT_MULTIPLIER = 0.7;
-    private static int MIN_HEIGHT = 60;
-    private static int MAX_HEIGHT = 60*5;
+    private final static double HEIGHT_MULTIPLIER = 0.7;
+    private final static int MIN_HEIGHT = 60;
+    private final static int MAX_HEIGHT = 60*5;
 
     private LinearLayout runsLayout;
 
