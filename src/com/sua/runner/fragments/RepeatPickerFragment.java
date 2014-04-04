@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import com.sua.runner.R;
-import com.sua.runner.Utils;
+import com.sua.runner.utilities.Utils;
 
 public class RepeatPickerFragment extends DialogFragment {
 

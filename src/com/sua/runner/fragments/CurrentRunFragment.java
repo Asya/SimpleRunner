@@ -8,8 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.sua.runner.utilities.PreferencesManager;
 import com.sua.runner.R;
-import com.sua.runner.Utils;
+import com.sua.runner.utilities.Utils;
 import com.sua.runner.model.CurrentRun;
 import com.sua.runner.model.RunBlock;
 
@@ -83,7 +84,8 @@ public class CurrentRunFragment extends Fragment {
         return height;
     }
 
-    public void initCurrentRun(CurrentRun currentRun) {
+    public void initCurrentRun() {
+        CurrentRun currentRun = new PreferencesManager(getActivity()).getCurrentRun();
         runsLayout.removeAllViews();
 
         if(currentRun != null) {

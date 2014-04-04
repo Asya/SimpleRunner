@@ -1,6 +1,6 @@
 package com.sua.runner.model;
 
-import com.sua.runner.Config;
+import com.sua.runner.utilities.Config;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

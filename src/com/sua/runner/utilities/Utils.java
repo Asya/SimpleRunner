@@ -1,6 +1,7 @@
-package com.sua.runner;
+package com.sua.runner.utilities;
 
 import android.content.Context;
+import com.sua.runner.R;
 
 public class Utils {
 

@@ -1,4 +1,4 @@
-package com.sua.runner;
+package com.sua.runner.utilities;
 
 
 public abstract class Config {
@@ -10,10 +10,11 @@ public abstract class Config {
     public static final String PARAM_CURRENT_RUN = "current_run";
 
     //Walk types
-    public final static int TYPE_RUN = -1;
-    public final static int TYPE_WALK_IN_RUN = 0;
-    public final static int TYPE_BEFORE_WALK = 1;
-    public final static int TYPE_AFTER_WALK = 2;
+    public final static int TYPE_NONE = -1;
+    public final static int TYPE_RUN = 0;
+    public final static int TYPE_WALK_IN_RUN = 1;
+    public final static int TYPE_BEFORE_WALK = 2;
+    public final static int TYPE_AFTER_WALK = 3;
 
     //Dimentions
     public final static int SECOND = 1000;

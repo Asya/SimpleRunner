@@ -2,17 +2,18 @@ package com.sua.runner.activities;
 
 
 import android.app.*;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import com.sua.runner.PreferencesManager;
-import com.sua.runner.RunService;
-import com.sua.runner.TabsAdapter;
-import com.sua.runner.R;
+import com.sua.runner.*;
 import com.sua.runner.fragments.CurrentRunFragment;
 import com.sua.runner.fragments.NewRunFragment;
 import com.sua.runner.fragments.SampleFragment;
 import com.sua.runner.model.CurrentRun;
+import com.sua.runner.utilities.PreferencesManager;
+
+import java.util.Calendar;
 
 public class MainActivity extends Activity {
 
@@ -46,19 +47,30 @@ public class MainActivity extends Activity {
         viewPager.setOffscreenPageLimit(3);
     }
 
-    public void startRun(CurrentRun currentRun){
+    public void startRun(CurrentRun currentRun) {
         PreferencesManager prefs = new PreferencesManager(this);
         prefs.resetRun();
         prefs.setCurrentRun(currentRun);
 
-        Intent intent = new Intent(this, RunService.class);
-        this.startService(intent);
+        startService();
+        selectCurrentRunTab();
+    }
 
+    private void startService() {
+        Context ctx = getApplicationContext();
+        Calendar cal = Calendar.getInstance();
+        AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        Intent serviceIntent = new Intent(ctx, RunService.class);
+        PendingIntent servicePendingIntent = PendingIntent.getService(ctx, RunService.SERVICE_ID, serviceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), servicePendingIntent);
+    }
+
+    private void selectCurrentRunTab() {
         int currentRunTabPosition = tabsAdapter.getFragmentPosition(CurrentRunFragment.class);
         viewPager.setCurrentItem(currentRunTabPosition);
-        if(currentRun != null) {
-            CurrentRunFragment currentRunFragment = (CurrentRunFragment)tabsAdapter.getItem(currentRunTabPosition);
-            currentRunFragment.initCurrentRun(currentRun);
+        if (new PreferencesManager(this).getCurrentRun() != null) {
+            CurrentRunFragment currentRunFragment = (CurrentRunFragment) tabsAdapter.getItem(currentRunTabPosition);
+            currentRunFragment.initCurrentRun();
         }
     }
 }

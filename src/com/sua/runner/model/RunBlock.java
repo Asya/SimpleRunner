@@ -1,12 +1,10 @@
 package com.sua.runner.model;
 
-import com.sua.runner.Config;
-import org.json.JSONArray;
+import com.sua.runner.utilities.Config;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class RunBlock implements Serializable {
 

@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.sua.runner.R;
-import com.sua.runner.Utils;
+import com.sua.runner.utilities.Utils;
 import com.sua.runner.activities.MainActivity;
 import com.sua.runner.model.CurrentRun;
 import com.sua.runner.model.RunBlock;
