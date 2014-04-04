@@ -13,16 +13,14 @@ import com.sua.runner.R;
 import com.sua.runner.utilities.Utils;
 import com.sua.runner.model.CurrentRun;
 import com.sua.runner.model.RunBlock;
+import com.sua.runner.views.FloatingTimeView;
 
 import java.util.ArrayList;
 
 public class CurrentRunFragment extends Fragment {
 
-    private final static double HEIGHT_MULTIPLIER = 0.7;
-    private final static int MIN_HEIGHT = 60;
-    private final static int MAX_HEIGHT = 60*5;
-
     private LinearLayout runsLayout;
+    private FloatingTimeView layoutTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +32,7 @@ public class CurrentRunFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         runsLayout = (LinearLayout)view.findViewById(R.id.layout_runs);
+        layoutTime = (FloatingTimeView)view.findViewById(R.id.layout_time);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class CurrentRunFragment extends Fragment {
         TextView timeText = (TextView)walkView.findViewById(R.id.time);
         timeText.setText(Utils.timeInString(duration, getActivity()));
         ViewGroup.LayoutParams layoutParams = walkView.getLayoutParams();
-        layoutParams.height = getHeight(duration);
+        layoutParams.height = Utils.getRunItemHeight(getActivity(), duration);
         walkView.setLayoutParams(layoutParams);
         runsLayout.addView(walkView);
     }
@@ -67,22 +66,12 @@ public class CurrentRunFragment extends Fragment {
         TextView timeText = (TextView)runView.findViewById(R.id.time);
         timeText.setText(Utils.timeInString(duration, getActivity()));
         ViewGroup.LayoutParams layoutParams = runView.getLayoutParams();
-        layoutParams.height = getHeight(duration);
+        layoutParams.height = Utils.getRunItemHeight(getActivity(), duration);
         runView.setLayoutParams(layoutParams);
         runsLayout.addView(runView);
     }
 
-    private int getHeight(int duration) {
-        float dp = getResources().getDisplayMetrics().density;
-        int height = (int)(duration * HEIGHT_MULTIPLIER * dp);
-        if(height < MIN_HEIGHT * dp) {
-            return (int)(MIN_HEIGHT * dp);
-        }
-        if(height > MAX_HEIGHT * dp) {
-            return (int)(MAX_HEIGHT * dp);
-        }
-        return height;
-    }
+
 
     public void initCurrentRun() {
         CurrentRun currentRun = new PreferencesManager(getActivity()).getCurrentRun();
@@ -102,5 +91,9 @@ public class CurrentRunFragment extends Fragment {
             addWalkItem(currentRun.getWalkAfterTime());
             runsLayout.invalidate();
         }
+    }
+
+    public void setNextActionUI() {
+        layoutTime.setNextAnimation();
     }
 }

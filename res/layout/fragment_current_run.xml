@@ -17,9 +17,9 @@
         </LinearLayout>
 
         <com.sua.runner.views.FloatingTimeView
+                android:id="@+id/layout_time"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
-                android:id="@+id/layout_time"
                 android:visibility="invisible"
                 />
 

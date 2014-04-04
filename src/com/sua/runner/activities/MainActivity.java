@@ -2,8 +2,10 @@ package com.sua.runner.activities;
 
 
 import android.app.*;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import com.sua.runner.*;
@@ -11,6 +13,7 @@ import com.sua.runner.fragments.CurrentRunFragment;
 import com.sua.runner.fragments.NewRunFragment;
 import com.sua.runner.fragments.SampleFragment;
 import com.sua.runner.model.CurrentRun;
+import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 
 import java.util.Calendar;
@@ -20,6 +23,14 @@ public class MainActivity extends Activity {
     private ActionBar actionBar;
     private ViewPager viewPager;
     private TabsAdapter tabsAdapter;
+
+    private BroadcastReceiver actionFinishedReciverReceiver =
+            new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    setNextActionUI();
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +42,20 @@ public class MainActivity extends Activity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         initViewPager();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Config.INTENT_ACTION_FINISHED);
+        registerReceiver(actionFinishedReciverReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(actionFinishedReciverReceiver);
     }
 
     private void initViewPager() {
@@ -68,9 +93,14 @@ public class MainActivity extends Activity {
     private void selectCurrentRunTab() {
         int currentRunTabPosition = tabsAdapter.getFragmentPosition(CurrentRunFragment.class);
         viewPager.setCurrentItem(currentRunTabPosition);
-        if (new PreferencesManager(this).getCurrentRun() != null) {
-            CurrentRunFragment currentRunFragment = (CurrentRunFragment) tabsAdapter.getItem(currentRunTabPosition);
-            currentRunFragment.initCurrentRun();
-        }
+        CurrentRunFragment currentRunFragment = (CurrentRunFragment) tabsAdapter.getItem(currentRunTabPosition);
+        currentRunFragment.initCurrentRun();
     }
+
+    private void setNextActionUI() {
+        int currentRunTabPosition = tabsAdapter.getFragmentPosition(CurrentRunFragment.class);
+        CurrentRunFragment currentRunFragment = (CurrentRunFragment) tabsAdapter.getItem(currentRunTabPosition);
+        currentRunFragment.setNextActionUI();
+    }
+
 }

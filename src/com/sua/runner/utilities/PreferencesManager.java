@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import com.sua.runner.model.CurrentRun;
-import com.sua.runner.utilities.Config;
 
 public class PreferencesManager {
 
@@ -16,12 +15,12 @@ public class PreferencesManager {
         preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-	public int getWalkType() {
-		return getInt(Config.PARAM_WALK_TYPE, Config.TYPE_NONE);
+	public int getRunTypeType() {
+		return getInt(Config.PARAM_RUN_TYPE, Config.TYPE_NONE);
 	}
 
-	public void setWalkType(int walkType) {
-		setInt(Config.PARAM_WALK_TYPE, walkType);
+	public void setRunType(int runType) {
+		setInt(Config.PARAM_RUN_TYPE, runType);
 	}
 
     public int getRepeatCount() {
@@ -53,7 +52,7 @@ public class PreferencesManager {
     }
 
     public void resetRun() {
-        setWalkType(Config.TYPE_NONE);
+        setRunType(Config.TYPE_NONE);
         setRepeatCount(-1);
         setRunBlock(0);
         setCurrentRun(null);
