@@ -5,6 +5,7 @@ import android.app.*;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import com.sua.runner.PreferencesManager;
 import com.sua.runner.RunService;
 import com.sua.runner.TabsAdapter;
 import com.sua.runner.R;
@@ -46,10 +47,11 @@ public class MainActivity extends Activity {
     }
 
     public void startRun(CurrentRun currentRun){
+        PreferencesManager prefs = new PreferencesManager(this);
+        prefs.resetRun();
+        prefs.setCurrentRun(currentRun);
+
         Intent intent = new Intent(this, RunService.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(RunService.CURRENT_RUN_EXTRA, currentRun);
-        intent.putExtras(bundle);
         this.startService(intent);
 
         int currentRunTabPosition = tabsAdapter.getFragmentPosition(CurrentRunFragment.class);

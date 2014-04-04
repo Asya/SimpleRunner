@@ -15,23 +15,13 @@ import java.util.TimerTask;
 
 public class RunService extends Service {
 
-    public final static String CURRENT_RUN_EXTRA = "current_run";
     public final static String MESSAGE_EXTRA = "message";
-
-    private final static int SECOND = 1000;
-    private final static int TYPE_RUN = -1;
-    private final static int TYPE_WALK_IN_RUN = 0;
-    private final static int TYPE_BEFORE_WALK = 1;
-    private final static int TYPE_AFTER_WALK = 2;
 
     private Timer timer;
     private CurrentRun currentRun;
-    private int walkType = TYPE_BEFORE_WALK;
-    private int repeatCount = -1;
-    private int runBlock = 0;
 
     private PowerManager.WakeLock wakeLock;
-
+    private PreferencesManager prefs;
 
     private Handler handler = new Handler() {
         @Override
@@ -56,6 +46,7 @@ public class RunService extends Service {
     @Override
     public void onCreate() {
         timer = new Timer();
+        prefs = new PreferencesManager(this);
         Toast.makeText(this, "The new Service was Created.", Toast.LENGTH_LONG).show();
     }
 
@@ -65,11 +56,7 @@ public class RunService extends Service {
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "My Tag");
         wakeLock.acquire();
 
-        walkType = TYPE_BEFORE_WALK;
-        repeatCount = -1;
-        runBlock = 0;
-
-        currentRun = (CurrentRun) intent.getSerializableExtra(CURRENT_RUN_EXTRA);
+        currentRun = new PreferencesManager(this).getCurrentRun();
         makeSoundNorification();
         sceduleTimer(currentRun.getWalkBeforeTime());
         return super.onStartCommand(intent, flags, startId);
@@ -84,7 +71,7 @@ public class RunService extends Service {
             e.printStackTrace();
         }
         Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(SECOND);
+        v.vibrate(Config.SECOND);
     }
 
     @Override
@@ -94,7 +81,7 @@ public class RunService extends Service {
     }
 
     private void sceduleTimer(int time) {
-        timer.schedule(new EventTimerTask(), time * SECOND);
+        timer.schedule(new EventTimerTask(), time * Config.SECOND);
     }
 
     class EventTimerTask extends TimerTask {
@@ -103,17 +90,17 @@ public class RunService extends Service {
         public void run() {
             makeSoundNorification();
 
-            switch (walkType){
-                case TYPE_BEFORE_WALK:
+            switch (prefs.getWalkType()){
+                case Config.TYPE_BEFORE_WALK:
                     startRun();
                     break;
-                case TYPE_RUN:
+                case Config.TYPE_RUN:
                     startWalkInRun();
                    break;
-                case TYPE_WALK_IN_RUN:
+                case Config.TYPE_WALK_IN_RUN:
                     startRun();
                     break;
-                case TYPE_AFTER_WALK:
+                case Config.TYPE_AFTER_WALK:
                     sendMessage("FINISH!!!");
                     wakeLock.release();
                     break;
@@ -121,28 +108,28 @@ public class RunService extends Service {
         }
 
         private void startRun() {
-            repeatCount++;
-            if(currentRun.getRunBlocks().get(runBlock).getRepeat() > repeatCount) {
-                walkType = TYPE_RUN;
-                sceduleTimer(currentRun.getRunBlocks().get(runBlock).getRunTime());
-                sendMessage("Start Run #" + repeatCount);
+            prefs.setRepeatCount(prefs.getRepeatCount() + 1);
+            if(currentRun.getRunBlocks().get(prefs.getRunBlock()).getRepeat() > prefs.getRepeatCount()) {
+                prefs.setWalkType(Config.TYPE_RUN);
+                sceduleTimer(currentRun.getRunBlocks().get(prefs.getRunBlock()).getRunTime());
+                sendMessage("Start Run #" + prefs.getRepeatCount());
             } else if(currentRun.getWalkAfterTime() > 0){
                 startAfterWalk();
             }
         }
 
         private void startWalkInRun() {
-            if(currentRun.getRunBlocks().get(runBlock).getWalkTime() > 0) {
-                walkType = TYPE_WALK_IN_RUN;
-                sceduleTimer(currentRun.getRunBlocks().get(runBlock).getWalkTime());
-                sendMessage("Start Walk in Run #" + repeatCount);
+            if(currentRun.getRunBlocks().get(prefs.getRunBlock()).getWalkTime() > 0) {
+                prefs.setWalkType(Config.TYPE_WALK_IN_RUN);
+                sceduleTimer(currentRun.getRunBlocks().get(prefs.getRunBlock()).getWalkTime());
+                sendMessage("Start Walk in Run #" + prefs.getRepeatCount());
             } else {
                 startRun();
             }
         }
 
         private void startAfterWalk() {
-            walkType = TYPE_AFTER_WALK;
+            prefs.setWalkType(Config.TYPE_AFTER_WALK);
             sceduleTimer(currentRun.getWalkAfterTime());
             sendMessage("Start After Walk");
         }
