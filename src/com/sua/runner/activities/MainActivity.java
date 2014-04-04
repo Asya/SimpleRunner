@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
     private ViewPager viewPager;
     private TabsAdapter tabsAdapter;
 
-    private BroadcastReceiver actionFinishedReciverReceiver =
+    private BroadcastReceiver actionFinishedReceiverReceiver =
             new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -49,13 +49,13 @@ public class MainActivity extends Activity {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Config.INTENT_ACTION_FINISHED);
-        registerReceiver(actionFinishedReciverReceiver, intentFilter);
+        registerReceiver(actionFinishedReceiverReceiver, intentFilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(actionFinishedReciverReceiver);
+        unregisterReceiver(actionFinishedReceiverReceiver);
     }
 
     private void initViewPager() {

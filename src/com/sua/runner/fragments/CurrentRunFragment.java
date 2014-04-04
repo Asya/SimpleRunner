@@ -42,7 +42,7 @@ public class CurrentRunFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        super.onDetach();    //To change body of overridden methods use File | Settings | File Templates.
+        super.onDetach();
     }
 
     private void addWalkItem(int duration) {

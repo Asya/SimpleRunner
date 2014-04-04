@@ -40,7 +40,7 @@ public class RunService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         prefs = new PreferencesManager(this);
         currentRun = prefs.getCurrentRun();
-        makeSoundNorification();
+        makeSoundNotification();
 
         switch (prefs.getRunTypeType()){
             case Config.TYPE_NONE:
@@ -64,7 +64,7 @@ public class RunService extends IntentService {
         sendBroadcast(new Intent(Config.INTENT_ACTION_FINISHED));
     }
 
-    private void makeSoundNorification() {
+    private void makeSoundNotification() {
         try {
             Uri notification = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.beep);
             Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
