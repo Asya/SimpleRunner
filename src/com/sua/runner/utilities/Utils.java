@@ -3,6 +3,10 @@ package com.sua.runner.utilities;
 import android.content.Context;
 import com.sua.runner.R;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class Utils {
 
     public static int timeInSeconds(int minutes, int seconds) {
@@ -47,4 +51,5 @@ public class Utils {
         }
         return height;
     }
+
 }

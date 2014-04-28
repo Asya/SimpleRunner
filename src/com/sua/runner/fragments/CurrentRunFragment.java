@@ -8,10 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.sua.runner.model.Run;
+import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 import com.sua.runner.R;
 import com.sua.runner.utilities.Utils;
-import com.sua.runner.model.CurrentRun;
 import com.sua.runner.model.RunBlock;
 import com.sua.runner.views.FloatingTimeView;
 
@@ -45,6 +46,15 @@ public class CurrentRunFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        PreferencesManager prefs = new PreferencesManager(getActivity());
+        if(prefs.getRunTypeType() != Config.TYPE_NONE && prefs.getTimeStartedAction() != 0) {
+            layoutTime.setNextAnimation();
+        }
+    }
+
     private void addWalkItem(int duration) {
         View walkView = getActivity().getLayoutInflater().inflate(R.layout.current_list_item, runsLayout, false);
         TextView nameText = (TextView)walkView.findViewById(R.id.name);
@@ -73,14 +83,14 @@ public class CurrentRunFragment extends Fragment {
 
 
 
-    public void initCurrentRun() {
-        CurrentRun currentRun = new PreferencesManager(getActivity()).getCurrentRun();
+    public void initRun() {
+        Run run = new PreferencesManager(getActivity()).getRun();
         runsLayout.removeAllViews();
 
-        if(currentRun != null) {
-            addWalkItem(currentRun.getWalkBeforeTime());
+        if(run != null) {
+            addWalkItem(run.getWalkBeforeTime());
 
-            ArrayList<RunBlock> runBlocks = currentRun.getRunBlocks();
+            ArrayList<RunBlock> runBlocks = run.getRunBlocks();
             for(int i = 0; i < runBlocks.size(); i++) {
                 for(int j = 0; j < runBlocks.get(i).getRepeat(); j++) {
                     addRunItem(runBlocks.get(i).getRunTime());
@@ -88,7 +98,7 @@ public class CurrentRunFragment extends Fragment {
                 }
             }
 
-            addWalkItem(currentRun.getWalkAfterTime());
+            addWalkItem(run.getWalkAfterTime());
             runsLayout.invalidate();
         }
     }

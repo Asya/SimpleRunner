@@ -9,14 +9,19 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import com.sua.runner.R;
+import com.sua.runner.model.Run;
+import com.sua.runner.model.RunBlock;
 import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 import com.sua.runner.utilities.Utils;
 
 public class FloatingTimeView extends FrameLayout{
 
-    private int currentAnimStartPoint = 0;
+    private PreferencesManager prefs;
+
+    private int animStartPoint = 0;
     private int currentAnimEndPoint = 0;
+
     public FloatingTimeView(Context context) {
         super(context);
         init(context);
@@ -34,42 +39,90 @@ public class FloatingTimeView extends FrameLayout{
 
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.floating_time, this, true);
-
+        prefs = new PreferencesManager(getContext());
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        currentAnimStartPoint =  -this.getHeight();
+        animStartPoint =  -this.getHeight();
         currentAnimEndPoint =  -this.getHeight();
     }
 
 
     public void setNextAnimation() {
-        PreferencesManager prefs = new PreferencesManager(getContext());
-        currentAnimStartPoint = currentAnimEndPoint;
 
         switch (prefs.getRunTypeType()){
+            case Config.TYPE_NONE:
+                break;
             case Config.TYPE_BEFORE_WALK:
-                setAnimation(prefs.getCurrentRun().getWalkBeforeTime());
+                setAnimation(prefs.getRun().getWalkBeforeTime(), 0);
                 break;
             case Config.TYPE_RUN:
-                setAnimation(prefs.getCurrentRun().getRunBlocks().get(prefs.getRunBlock()).getRunTime());
+                setAnimation(prefs.getRun().getRunBlocks().get(prefs.getRunBlock()).getRunTime(), getRunHeightPassed());
                 break;
             case Config.TYPE_WALK_IN_RUN:
-                setAnimation(prefs.getCurrentRun().getRunBlocks().get(prefs.getRunBlock()).getWalkTime());
+                setAnimation(prefs.getRun().getRunBlocks().get(prefs.getRunBlock()).getWalkTime(), getWalkHeightPassed());
                 break;
             case Config.TYPE_AFTER_WALK:
-                setAnimation(prefs.getCurrentRun().getWalkAfterTime());
+                setAnimation(prefs.getRun().getWalkAfterTime(), getWalkAfterHeightPassed());
                 break;
         }
     }
 
-    private void setAnimation(int duration) {
-        Log.e("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", new PreferencesManager(getContext()).getRunTypeType() + " + " + Utils.getRunItemHeight(getContext(), duration) + " + " + duration);
-        currentAnimEndPoint = currentAnimStartPoint + Utils.getRunItemHeight(getContext(), duration);
+    private int getRunHeightPassed() {
+        Run run = prefs.getRun();
+        int heightPassedBefore =  Utils.getRunItemHeight(getContext(), run.getWalkBeforeTime());
+
+        //TODO: check with blocks > 1
+        //TODO: change if will not include last walk time
+        for(int i = 0; i < run.getRunBlocks().size() - 1; i++) {
+            RunBlock block = run.getRunBlocks().get(i);
+            heightPassedBefore += (block.getRunTime() + block.getWalkTime()) * block.getRepeat();
+        }
+
+        if(prefs.getRepeatCount() > 0) {
+            RunBlock block = run.getRunBlocks().get(prefs.getRunBlock());
+            heightPassedBefore += (Utils.getRunItemHeight(getContext(), block.getRunTime())
+                                   + Utils.getRunItemHeight(getContext(), block.getWalkTime()))
+                                   * (prefs.getRepeatCount());
+        }
+
+        return heightPassedBefore;
+    }
+
+    private int getWalkHeightPassed() {
+        int runHeight = Utils.getRunItemHeight(getContext(), prefs.getRun().getRunBlocks().get(prefs.getRunBlock()).getRunTime());
+        return getRunHeightPassed() + runHeight;
+    }
+
+    private int getWalkAfterHeightPassed() {
+        Run run = prefs.getRun();
+        int heightPassedBefore =  Utils.getRunItemHeight(getContext(), run.getWalkBeforeTime());
+
+        //TODO: check with blocks > 1
+        //TODO: change if will not include last walk time
+        for(int i = 0; i < run.getRunBlocks().size(); i++) {
+            RunBlock block = run.getRunBlocks().get(i);
+            heightPassedBefore += (Utils.getRunItemHeight(getContext(), block.getRunTime())
+                                   + Utils.getRunItemHeight(getContext(), block.getWalkTime()))
+                                   * (prefs.getRepeatCount());
+        }
+
+        return heightPassedBefore;
+    }
+
+    private void setAnimation(int duration, int heightPassedBefore) {
+        int currentAnimStartPoint = animStartPoint + heightPassedBefore;
+        int timeSpace = (int)((System.currentTimeMillis() - prefs.getTimeStartedAction()) / Config.SECOND);
+        int heightSpace = 0;
+        if(timeSpace >= 1) {
+            heightSpace = Utils.getRunItemHeight(getContext(), duration) / duration *  timeSpace;
+        }
+        currentAnimStartPoint += heightSpace;
+        currentAnimEndPoint = currentAnimStartPoint + Utils.getRunItemHeight(getContext(), duration - timeSpace);
         Animation animation = new TranslateAnimation(0, 0, currentAnimStartPoint, currentAnimEndPoint);
-        animation.setDuration(duration * Config.SECOND);
+        animation.setDuration((duration - timeSpace) * Config.SECOND);
         animation.setFillAfter(true);
         this.startAnimation(animation);
         this.setVisibility(View.VISIBLE);

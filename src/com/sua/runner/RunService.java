@@ -10,7 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.*;
 import android.widget.Toast;
-import com.sua.runner.model.CurrentRun;
+import com.sua.runner.model.Run;
 import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 
@@ -21,7 +21,7 @@ public class RunService extends IntentService {
     public final static String MESSAGE_EXTRA = "message";
     public static final int SERVICE_ID = 1;  // integer constant used to identify the service
 
-    private CurrentRun currentRun;
+    private Run run;
 
     private PreferencesManager prefs;
 
@@ -39,8 +39,9 @@ public class RunService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         prefs = new PreferencesManager(this);
-        currentRun = prefs.getCurrentRun();
+        run = prefs.getRun();
         makeSoundNotification();
+        prefs.setTimeStartedAction(System.currentTimeMillis());
 
         switch (prefs.getRunTypeType()){
             case Config.TYPE_NONE:
@@ -78,19 +79,19 @@ public class RunService extends IntentService {
 
     private void startRun() {
         prefs.setRepeatCount(prefs.getRepeatCount() + 1);
-        if(currentRun.getRunBlocks().get(prefs.getRunBlock()).getRepeat() > prefs.getRepeatCount()) {
+        if(run.getRunBlocks().get(prefs.getRunBlock()).getRepeat() > prefs.getRepeatCount()) {
             prefs.setRunType(Config.TYPE_RUN);
-            setAlarm(currentRun.getRunBlocks().get(prefs.getRunBlock()).getRunTime());
+            setAlarm(run.getRunBlocks().get(prefs.getRunBlock()).getRunTime());
             sendMessage("Start Run #" + prefs.getRepeatCount());
-        } else if(currentRun.getWalkAfterTime() > 0){
+        } else if(run.getWalkAfterTime() > 0){
             startAfterWalk();
         }
     }
 
     private void startWalkInRun() {
-        if(currentRun.getRunBlocks().get(prefs.getRunBlock()).getWalkTime() > 0) {
+        if(run.getRunBlocks().get(prefs.getRunBlock()).getWalkTime() > 0) {
             prefs.setRunType(Config.TYPE_WALK_IN_RUN);
-            setAlarm(currentRun.getRunBlocks().get(prefs.getRunBlock()).getWalkTime());
+            setAlarm(run.getRunBlocks().get(prefs.getRunBlock()).getWalkTime());
             sendMessage("Start Walk in Run #" + prefs.getRepeatCount());
         } else {
             startRun();
@@ -99,13 +100,13 @@ public class RunService extends IntentService {
 
     private void startBeforeWalk() {
        prefs.setRunType(Config.TYPE_BEFORE_WALK);
-       setAlarm(currentRun.getWalkBeforeTime());
+       setAlarm(run.getWalkBeforeTime());
        sendMessage("Start Before Walk");
     }
 
     private void startAfterWalk() {
         prefs.setRunType(Config.TYPE_AFTER_WALK);
-        setAlarm(currentRun.getWalkAfterTime());
+        setAlarm(run.getWalkAfterTime());
         sendMessage("Start After Walk");
     }
 

@@ -8,6 +8,7 @@ public abstract class Config {
     public static final String PARAM_REPEAT_COUNT = "repeat_count";
     public static final String PARAM_RUN_BLOCK = "run_block";
     public static final String PARAM_CURRENT_RUN = "current_run";
+    public static final String PARAM_TIME_STARTED_ACTION = "time_started_action";
 
     //Walk types
     public final static int TYPE_NONE = -1;
@@ -19,12 +20,12 @@ public abstract class Config {
     //Dimentions
     public final static int SECOND = 1000;
 
-    //CurrentRun item height
+    //Run item height
     public final static double RUN_ITEM_HEIGHT_MULTIPLIER = 10;//0.7;
     public final static int RUN_ITEM_MIN_HEIGHT = 60;
     public final static int RUN_ITEM_MAX_HEIGHT = 60*5;
 
-    //CurrentRun JSON
+    //Run JSON
     public final static String JSON_WALK_BEFORE_TIME = "walk_before_time";
     public final static String JSON_WALK_AFTER_TIME = "walk_after_time";
     public final static String JSON_RUN_BLOCKS = "run_blocks";

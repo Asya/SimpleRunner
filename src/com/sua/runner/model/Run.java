@@ -8,13 +8,13 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CurrentRun implements Serializable {
+public class Run implements Serializable {
 
     private int walkBeforeTime;
     private int walkAfterTime;
     private ArrayList<RunBlock> runBlocks;
 
-    public CurrentRun(int walkBeforeTime, int walkAfterTime, ArrayList<RunBlock> runBlocks) {
+    public Run(int walkBeforeTime, int walkAfterTime, ArrayList<RunBlock> runBlocks) {
         this.walkBeforeTime = walkBeforeTime;
         this.walkAfterTime = walkAfterTime;
         this.runBlocks = runBlocks;
@@ -45,13 +45,13 @@ public class CurrentRun implements Serializable {
         return json.toString();
     }
 
-    public static CurrentRun getCurrentRun(String currentRunString) {
+    public static Run getRun(String runString) {
         int walkBefore = 0;
         int walkAfter = 0;
         ArrayList<RunBlock> runBlocks = new ArrayList<RunBlock>();
 
         try {
-            JSONObject jObject = new JSONObject(currentRunString);
+            JSONObject jObject = new JSONObject(runString);
             walkBefore = jObject.getInt(Config.JSON_WALK_BEFORE_TIME);
             walkAfter = jObject.getInt(Config.JSON_WALK_AFTER_TIME);
             JSONArray jArray = jObject.getJSONArray(Config.JSON_RUN_BLOCKS);
@@ -63,6 +63,6 @@ public class CurrentRun implements Serializable {
             e.printStackTrace();
         }
 
-        return new CurrentRun(walkBefore, walkAfter, runBlocks);
+        return new Run(walkBefore, walkAfter, runBlocks);
     }
 }

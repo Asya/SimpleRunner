@@ -12,7 +12,7 @@ import com.sua.runner.*;
 import com.sua.runner.fragments.CurrentRunFragment;
 import com.sua.runner.fragments.NewRunFragment;
 import com.sua.runner.fragments.SampleFragment;
-import com.sua.runner.model.CurrentRun;
+import com.sua.runner.model.Run;
 import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 
@@ -72,10 +72,10 @@ public class MainActivity extends Activity {
         viewPager.setOffscreenPageLimit(3);
     }
 
-    public void startRun(CurrentRun currentRun) {
+    public void startRun(Run run) {
         PreferencesManager prefs = new PreferencesManager(this);
         prefs.resetRun();
-        prefs.setCurrentRun(currentRun);
+        prefs.setRun(run);
 
         startService();
         selectCurrentRunTab();
@@ -94,7 +94,7 @@ public class MainActivity extends Activity {
         int currentRunTabPosition = tabsAdapter.getFragmentPosition(CurrentRunFragment.class);
         viewPager.setCurrentItem(currentRunTabPosition);
         CurrentRunFragment currentRunFragment = (CurrentRunFragment) tabsAdapter.getItem(currentRunTabPosition);
-        currentRunFragment.initCurrentRun();
+        currentRunFragment.initRun();
     }
 
     private void setNextActionUI() {

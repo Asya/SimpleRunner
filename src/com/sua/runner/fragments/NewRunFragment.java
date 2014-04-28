@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.sua.runner.R;
 import com.sua.runner.utilities.Utils;
 import com.sua.runner.activities.MainActivity;
-import com.sua.runner.model.CurrentRun;
+import com.sua.runner.model.Run;
 import com.sua.runner.model.RunBlock;
 
 import java.util.ArrayList;
@@ -59,11 +59,11 @@ public class NewRunFragment extends Fragment {
         btnStartRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CurrentRun currentRun = collectInfo();
+                Run run = collectInfo();
 
                 MainActivity mainActivity = (MainActivity)getActivity();
                 if(mainActivity != null) {
-                    mainActivity.startRun(currentRun);
+                    mainActivity.startRun(run);
                 }
             }
         });
@@ -165,7 +165,7 @@ public class NewRunFragment extends Fragment {
         textAfterWalk.setTag(PRESET_WALK);
     }
 
-    private CurrentRun collectInfo() {
+    private Run collectInfo() {
         int beforeWalkTime = (Integer)beforeWalkView.findViewById(R.id.value).getTag();
         int afterWalkTime = (Integer)afterWalkView.findViewById(R.id.value).getTag();
 
@@ -174,7 +174,7 @@ public class NewRunFragment extends Fragment {
             runBlocks.add(collectRunBlockInfo(runViews.get(i)));
         }
 
-        return new CurrentRun(beforeWalkTime, afterWalkTime, runBlocks);
+        return new Run(beforeWalkTime, afterWalkTime, runBlocks);
     }
 
     private RunBlock collectRunBlockInfo(View view) {
