@@ -29,7 +29,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_weight="1"
-                  android:text="@string/run"
+                  android:text="@string/training"
                   style="@style/NewRunTextBlue"/>
         <TextView android:id="@+id/value_run"
                   android:layout_width="wrap_content"

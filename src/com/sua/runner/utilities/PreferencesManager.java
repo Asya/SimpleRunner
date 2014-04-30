@@ -5,7 +5,7 @@ import android.preference.PreferenceManager;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import com.sua.runner.model.Run;
+import com.sua.runner.model.Training;
 
 public class PreferencesManager {
 
@@ -18,34 +18,34 @@ public class PreferencesManager {
     /*************************************************************/
 
     /**Information about current run is stored in 4 params:
-     ** 1 - runType:  TYPE_NONE | TYPE_RUN | TYPE_WALK_IN_RUN | TYPE_BEFORE_WALK | TYPE_AFTER_WALK;
-     ** 2 - repeatCount: number of current loop in running block;
-     ** 3 - runBlock: number of running block;
+     ** 1 - currentActionType:  TYPE_NONE | TYPE_RUN | TYPE_WALK_IN_RUN | TYPE_BEFORE_WALK | TYPE_AFTER_WALK;
+     ** 2 - currentRepeatCount: number of current loop in running block;
+     ** 3 - currentRunBlock: number of running block;
      ** 4 - timeStartedAction: time when started current action in UTC.
      **/
 
-	public int getRunTypeType() {
-		return getInt(Config.PARAM_RUN_TYPE, Config.TYPE_NONE);
+	public int getCurrentActionType() {
+		return getInt(Config.PARAM_CURRENT_ACTION_TYPE, Config.TYPE_NONE);
 	}
 
-	public void setRunType(int runType) {
-		setInt(Config.PARAM_RUN_TYPE, runType);
+	public void setCurrentActionType(int runType) {
+		setInt(Config.PARAM_CURRENT_ACTION_TYPE, runType);
 	}
 
-    public int getRepeatCount() {
+    public int getCurrentRepeatCount() {
         return getInt(Config.PARAM_REPEAT_COUNT, -1);
     }
 
-    public void setRepeatCount(int repeatCount) {
+    public void setCurrentRepeatCount(int repeatCount) {
         setInt(Config.PARAM_REPEAT_COUNT, repeatCount);
     }
 
-    public int getRunBlock() {
+    public int getCurrentRunBlockIndex() {
         return getInt(Config.PARAM_RUN_BLOCK, 0);
     }
 
-    public void setRunBlock(int runBlock) {
-        setInt(Config.PARAM_RUN_BLOCK, runBlock);
+    public void setCurrentRunBlockIndex(int index) {
+        setInt(Config.PARAM_RUN_BLOCK, index);
     }
 
     public long getTimeStartedAction() {
@@ -57,24 +57,24 @@ public class PreferencesManager {
     }
 
     public void resetRun() {
-        setRunType(Config.TYPE_NONE);
-        setRepeatCount(-1);
-        setRunBlock(0);
-        setRun(null);
+        setCurrentActionType(Config.TYPE_NONE);
+        setCurrentRepeatCount(-1);
+        setCurrentRunBlockIndex(0);
+        setTraining(null);
         setTimeStartedAction(0);
     }
 
     /*************************************************************/
 
-    public Run getRun() {
-        return Run.getRun(getString(Config.PARAM_CURRENT_RUN, ""));
+    public Training getTraining() {
+        return Training.getTraining(getString(Config.PARAM_CURRENT_TRAININIG, ""));
     }
 
-    public void setRun(Run run) {
-        if(run == null) {
-            setString(Config.PARAM_CURRENT_RUN, "");
+    public void setTraining(Training training) {
+        if(training == null) {
+            setString(Config.PARAM_CURRENT_TRAININIG, "");
         } else {
-            setString(Config.PARAM_CURRENT_RUN, run.toString());
+            setString(Config.PARAM_CURRENT_TRAININIG, training.toString());
         }
     }
 

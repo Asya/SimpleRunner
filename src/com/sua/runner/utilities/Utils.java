@@ -40,7 +40,7 @@ public class Utils {
         return builder.toString();
     }
 
-    public static int getRunItemHeight(Context context, int duration) {
+    public static int getTrainingItemHeight(Context context, int duration) {
         float dp = context.getResources().getDisplayMetrics().density;
         int height = (int)(duration * Config.RUN_ITEM_HEIGHT_MULTIPLIER * dp);
         if(height < Config.RUN_ITEM_MIN_HEIGHT * dp) {

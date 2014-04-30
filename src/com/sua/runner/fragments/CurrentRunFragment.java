@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.sua.runner.model.Run;
+import com.sua.runner.model.Training;
 import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 import com.sua.runner.R;
@@ -22,6 +22,8 @@ public class CurrentRunFragment extends Fragment {
 
     private LinearLayout runsLayout;
     private FloatingTimeView layoutTime;
+
+    private int index = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +52,8 @@ public class CurrentRunFragment extends Fragment {
     public void onResume() {
         super.onResume();
         PreferencesManager prefs = new PreferencesManager(getActivity());
-        if(prefs.getRunTypeType() != Config.TYPE_NONE && prefs.getTimeStartedAction() != 0) {
+        if(prefs.getCurrentActionType() != Config.TYPE_NONE && prefs.getTimeStartedAction() != 0) {
+            initRun();
             layoutTime.setNextAnimation();
         }
     }
@@ -59,11 +62,11 @@ public class CurrentRunFragment extends Fragment {
         View walkView = getActivity().getLayoutInflater().inflate(R.layout.current_list_item, runsLayout, false);
         TextView nameText = (TextView)walkView.findViewById(R.id.name);
         nameText.setBackgroundColor(getResources().getColor(R.color.dark_blue_transparent));
-        nameText.setText("Walk #" + duration);
+        nameText.setText("Walk #" + index++);
         TextView timeText = (TextView)walkView.findViewById(R.id.time);
         timeText.setText(Utils.timeInString(duration, getActivity()));
         ViewGroup.LayoutParams layoutParams = walkView.getLayoutParams();
-        layoutParams.height = Utils.getRunItemHeight(getActivity(), duration);
+        layoutParams.height = Utils.getTrainingItemHeight(getActivity(), duration);
         walkView.setLayoutParams(layoutParams);
         runsLayout.addView(walkView);
     }
@@ -72,11 +75,11 @@ public class CurrentRunFragment extends Fragment {
         View runView = getActivity().getLayoutInflater().inflate(R.layout.current_list_item, runsLayout, false);
         TextView nameText = (TextView)runView.findViewById(R.id.name);
         nameText.setBackgroundColor(getResources().getColor(R.color.orange_transparent));
-        nameText.setText("Run #" + duration);
+        nameText.setText("Training #" + index);
         TextView timeText = (TextView)runView.findViewById(R.id.time);
         timeText.setText(Utils.timeInString(duration, getActivity()));
         ViewGroup.LayoutParams layoutParams = runView.getLayoutParams();
-        layoutParams.height = Utils.getRunItemHeight(getActivity(), duration);
+        layoutParams.height = Utils.getTrainingItemHeight(getActivity(), duration);
         runView.setLayoutParams(layoutParams);
         runsLayout.addView(runView);
     }
@@ -84,13 +87,15 @@ public class CurrentRunFragment extends Fragment {
 
 
     public void initRun() {
-        Run run = new PreferencesManager(getActivity()).getRun();
+        index = 0;
+
+        Training training = new PreferencesManager(getActivity()).getTraining();
         runsLayout.removeAllViews();
 
-        if(run != null) {
-            addWalkItem(run.getWalkBeforeTime());
+        if(training != null) {
+            addWalkItem(training.getWalkBeforeTime());
 
-            ArrayList<RunBlock> runBlocks = run.getRunBlocks();
+            ArrayList<RunBlock> runBlocks = training.getRunBlocks();
             for(int i = 0; i < runBlocks.size(); i++) {
                 for(int j = 0; j < runBlocks.get(i).getRepeat(); j++) {
                     addRunItem(runBlocks.get(i).getRunTime());
@@ -98,7 +103,7 @@ public class CurrentRunFragment extends Fragment {
                 }
             }
 
-            addWalkItem(run.getWalkAfterTime());
+            addWalkItem(training.getWalkAfterTime());
             runsLayout.invalidate();
         }
     }

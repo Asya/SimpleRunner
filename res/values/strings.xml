@@ -10,11 +10,11 @@
     <string name="current_run">Current Run</string>
     <string name="statistics">Statistics</string>
 
-    <!-- New Run -->
+    <!-- New Training -->
     <string name="walk_before">WALK BEFORE</string>
     <string name="walk_after">WALK AFTER</string>
     <string name="walk">WALK</string>
-    <string name="run">RUN</string>
+    <string name="training">RUN</string>
     <string name="repeat">REPEAT</string>
     <string name="add_run">Add Run</string>
     <string name="start_run">Start Run</string>

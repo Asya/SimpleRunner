@@ -10,7 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.*;
 import android.widget.Toast;
-import com.sua.runner.model.Run;
+import com.sua.runner.model.Training;
 import com.sua.runner.utilities.Config;
 import com.sua.runner.utilities.PreferencesManager;
 
@@ -21,7 +21,7 @@ public class RunService extends IntentService {
     public final static String MESSAGE_EXTRA = "message";
     public static final int SERVICE_ID = 1;  // integer constant used to identify the service
 
-    private Run run;
+    private Training training;
 
     private PreferencesManager prefs;
 
@@ -39,11 +39,11 @@ public class RunService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         prefs = new PreferencesManager(this);
-        run = prefs.getRun();
+        training = prefs.getTraining();
         makeSoundNotification();
         prefs.setTimeStartedAction(System.currentTimeMillis());
 
-        switch (prefs.getRunTypeType()){
+        switch (prefs.getCurrentActionType()){
             case Config.TYPE_NONE:
                 startBeforeWalk();
                 break;
@@ -78,35 +78,35 @@ public class RunService extends IntentService {
     }
 
     private void startRun() {
-        prefs.setRepeatCount(prefs.getRepeatCount() + 1);
-        if(run.getRunBlocks().get(prefs.getRunBlock()).getRepeat() > prefs.getRepeatCount()) {
-            prefs.setRunType(Config.TYPE_RUN);
-            setAlarm(run.getRunBlocks().get(prefs.getRunBlock()).getRunTime());
-            sendMessage("Start Run #" + prefs.getRepeatCount());
-        } else if(run.getWalkAfterTime() > 0){
+        prefs.setCurrentRepeatCount(prefs.getCurrentRepeatCount() + 1);
+        if(training.getRunBlocks().get(prefs.getCurrentRunBlockIndex()).getRepeat() > prefs.getCurrentRepeatCount()) {
+            prefs.setCurrentActionType(Config.TYPE_RUN);
+            setAlarm(training.getRunBlocks().get(prefs.getCurrentRunBlockIndex()).getRunTime());
+            sendMessage("Start Training #" + prefs.getCurrentRepeatCount());
+        } else if(training.getWalkAfterTime() > 0){
             startAfterWalk();
         }
     }
 
     private void startWalkInRun() {
-        if(run.getRunBlocks().get(prefs.getRunBlock()).getWalkTime() > 0) {
-            prefs.setRunType(Config.TYPE_WALK_IN_RUN);
-            setAlarm(run.getRunBlocks().get(prefs.getRunBlock()).getWalkTime());
-            sendMessage("Start Walk in Run #" + prefs.getRepeatCount());
+        if(training.getRunBlocks().get(prefs.getCurrentRunBlockIndex()).getWalkTime() > 0) {
+            prefs.setCurrentActionType(Config.TYPE_WALK_IN_RUN);
+            setAlarm(training.getRunBlocks().get(prefs.getCurrentRunBlockIndex()).getWalkTime());
+            sendMessage("Start Walk in Training #" + prefs.getCurrentRepeatCount());
         } else {
             startRun();
         }
     }
 
     private void startBeforeWalk() {
-       prefs.setRunType(Config.TYPE_BEFORE_WALK);
-       setAlarm(run.getWalkBeforeTime());
+       prefs.setCurrentActionType(Config.TYPE_BEFORE_WALK);
+       setAlarm(training.getWalkBeforeTime());
        sendMessage("Start Before Walk");
     }
 
     private void startAfterWalk() {
-        prefs.setRunType(Config.TYPE_AFTER_WALK);
-        setAlarm(run.getWalkAfterTime());
+        prefs.setCurrentActionType(Config.TYPE_AFTER_WALK);
+        setAlarm(training.getWalkAfterTime());
         sendMessage("Start After Walk");
     }
 
